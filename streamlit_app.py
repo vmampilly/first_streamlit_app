@@ -54,14 +54,28 @@ try:
 except URLError as e:
     streamlit.error()
 
-streamlit.stop()
+#streamlit.stop()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * from PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST")
-my_data_rows = my_cur.fetchall()
-streamlit.header("The Fruit Load list Contains :")
-streamlit.dataframe(my_data_rows)
+#my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+#my_cur = my_cnx.cursor()
+#my_cur.execute("SELECT * from PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST")
+#my_data_rows = my_cur.fetchall()
+#streamlit.header("The Fruit Load list Contains :")
+#streamlit.dataframe(my_data_rows)
+
+streamlit.header("This fruit load list contains")
+#Snowflake-relates functions
+def get_fruit_load_list():
+        with  my_cnx.cursor() as my_cur:
+                my_cur.execute("SELECT * from PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST")
+                return my_cur.fetchall()
+# Add a button to load the fruit
+if steamlit.button('Get fruit load list'):
+        my_cnx=snowflake.connector.connect(**streamlit.secrets["snowflake"])
+        my_data_rows=get_fruit_load_list()
+        strealit.dataframe(my_data_rows)
+                
+
 
 # Allow user to add a fruit to the list
 add_my_fruit = streamlit.text_input('What fruit would you like to add?','manga')
